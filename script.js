@@ -2,6 +2,13 @@ const secondHand = document.querySelector('.second-hand');
 const minsHand = document.querySelector('.min-hand');
 const hourHand = document.querySelector('.hour-hand');
 
+//Fixes the flicker as the clock resets transformation location
+function checkFlicker(ele, deg) {
+   if (deg === 90) {
+      ele.style.transition = 'all 0.0s';
+   }
+}
+
 function setDate() {
    const now = new Date();
 
@@ -16,6 +23,10 @@ function setDate() {
    const hour = now.getHours();
    const hourDegrees = ((hour / 12) * 360) + 90;
    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+
+   checkFlicker(secondHand, secondsDegrees);
+   checkFlicker(minsHand, minsDegrees);
+   checkFlicker(hourHand, hourDegrees);
 }
 
 setInterval(setDate, 1000);
